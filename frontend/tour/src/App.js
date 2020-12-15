@@ -1,25 +1,46 @@
-import logo from './logo.svg';
+import {React, Component} from 'react';
 import './App.css';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import axios from 'axios';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  state={};
+  componentDidMount(){
+    const config = {
+        headers:{
+            Authorization: 'Bearer ' + localStorage.getItem('user')
+        }
+    };
+    axios.get('http://localhost:8080/api/test/user', config).then(
+        res=>{
+            this.setState({
+                user: res.data
+            });
+        },
+        err=>{
+            console.log(err);
+        }
+    )
 }
 
-export default App;
+  render(){
+  return (
+    <div className="App">
+      <Router>
+          <Navbar user={this.state.user}/>
+          <Switch>
+            <Route path='/' exact component={()=><Home user={this.state.user}/>}/>
+            <Route path='/login' component={Login}/>
+            <Route path='/register' component={Register}/>
+          </Switch>
+      </Router>
+    </div>
+  );
+  }
+}
+
+
