@@ -1,6 +1,7 @@
 import {React, Component} from 'react';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import CreationTour from './components/CreationTour';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -36,6 +37,7 @@ export default class App extends Component {
             <Route path='/' exact component={()=><Home user={this.state.user}/>}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
+            <Route path='/add-tour' component={CreationTour}/>
           </Switch>
       </Router>
     </div>
