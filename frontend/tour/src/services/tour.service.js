@@ -1,19 +1,18 @@
 import axios from 'axios';
-import authHeader from './auth-header';
 
-const API_URL='http://localhost:8080/api/tours/';
+const API_URL = 'http://localhost:8080/api/tours/';
 
 class TourService{
-    addNewTour(title, price, description, place, inStock, file){
-        return axios.post(API_URL + 'add', {
-            title, 
-            price, 
-            description,
-            place,
-            inStock,
-            file,
-            headers: authHeader()
+    addNewTour(data){
+        return axios.post(API_URL + 'add', data, {
+            headers: {
+                "Content-Type":"application/json"
+            }
         });
+    }
+
+    getAllTours(){
+        return axios.get(API_URL + 'all');
     }
 }
 

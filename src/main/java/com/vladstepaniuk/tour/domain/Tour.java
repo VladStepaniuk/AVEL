@@ -15,20 +15,12 @@ public class Tour {
     private String place;
     private String description;
     private int inStock;
-
-
-    private String fileName;
-    private String fileType;
-
-    @Lob
-    private byte[] fileData;
-
     private Timestamp createdDate;
+    private String filePath;
 
 
     public Tour(String title, int rating, int price, String place, String description, int inStock,
-                String fileName, Timestamp createdDate, String fileType, byte[] fileData) {
-        this.fileName = fileName;
+                Timestamp createdDate, String filePath) {
         this.title = title;
         this.rating = rating;
         this.price = price;
@@ -36,37 +28,13 @@ public class Tour {
         this.description = description;
         this.inStock = inStock;
         this.createdDate = createdDate;
-        this.fileData = fileData;
-        this.fileType = fileType;
+        this.filePath = filePath;
     }
 
     public Tour() {
 
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
-    public byte[] getFileData() {
-        return fileData;
-    }
-
-    public void setFileData(byte[] fileData) {
-        this.fileData = fileData;
-    }
 
     public Timestamp getCreatedDate() {
         return createdDate;
@@ -130,5 +98,13 @@ public class Tour {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -30,7 +32,12 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Iterable<Tour> getAllTours() {
-        return tourRepository.findAll();
+    public Stream<Tour> getAllTours() {
+        return tourRepository.findAll().stream();
+    }
+
+    @Override
+    public Tour getById(Long id) {
+            return tourRepository.findById(id).orElseThrow();
     }
 }

@@ -6,7 +6,9 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Tours from './pages/Tours';
 import axios from 'axios';
+import TourView from './components/TourView';
 
 export default class App extends Component {
   state={};
@@ -38,6 +40,9 @@ export default class App extends Component {
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
             <Route path='/add-tour' component={CreationTour}/>
+            <Route path='/tours' component={Tours}/>
+            {/*<Route path='/tours/:id' component={TourView}/>*/}
+            <Route path='/info' component={TourView}/>
           </Switch>
       </Router>
     </div>

@@ -24,6 +24,17 @@ public class TourCreateRequest {
     @Range(min=3, max = 500)
     private int inStock;
 
+    @NotBlank
+    private String file;
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
     public String getTitle() {
         return title;
     }

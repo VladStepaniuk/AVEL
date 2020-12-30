@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import './Navbar.css';
 import AuthService from '../services/auth.service';
+import Dropdown from './Dropdown';
 
 class Navbar extends Component {
 
@@ -12,9 +13,9 @@ class Navbar extends Component {
             currentUser: undefined,
             isAuthenticated: false,
             click: false,
-            username: undefined
+            username: undefined,
+            dropdown: false
         };
-        this.logout=this.logout.bind(this);
         this.handleClick=this.handleClick.bind(this);
         this.closeMobileMenu=this.closeMobileMenu.bind(this);
     }
@@ -29,11 +30,6 @@ class Navbar extends Component {
             }
     }
 
-    logout(){
-        AuthService.logout();
-        window.location.reload();
-    }
-
     handleClick(){
         this.setState({
             click: true
@@ -46,17 +42,39 @@ class Navbar extends Component {
         })
     }
 
+    onMouseEnter = () => {
+        if (window.innerWidth < 960) {
+            this.setState({
+                dropdown: false
+            });
+        } else {
+            this.setState({
+                dropdown: true
+            });
+        }
+      };
+    
+      onMouseLeave = () => {
+        if (window.innerWidth < 960) {
+            this.setState({
+                dropdown: false
+            });
+        } else {
+            this.setState({
+                dropdown: false
+            });
+        }
+      };
+
     render() {
         let buttons;
         const {currentUser, handleClick, click, closeMobileMenu} = this.state;
         if(currentUser){
             buttons=(
                 <>
-                <li className='nav-item'>
-                    <Link to={'/profile'} className='nav-links'>{currentUser.username}</Link>
-                </li>
-                <li className='nav-item'>
-                    <Link to={'/'} onClick={()=>this.logout()} className='nav-links'>Logout</Link>
+                <li className='nav-item' onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+                    <Link className='nav-links'>{currentUser.username} <i className='fas fa-caret-down'/></Link>
+                    {this.state.dropdown &&<Dropdown />}
                 </li>
                 </>
             )
