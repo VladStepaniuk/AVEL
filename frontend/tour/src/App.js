@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Tours from './pages/Tours';
 import axios from 'axios';
 import TourView from './components/TourView';
+import Profile from './pages/Profile';
 
 export default class App extends Component {
   state={};
@@ -34,15 +35,15 @@ export default class App extends Component {
   return (
     <div className="App">
       <Router>
-          <Navbar user={this.state.user}/>
+          <Navbar/>
           <Switch>
-            <Route path='/' exact component={()=><Home user={this.state.user}/>}/>
+            <Route path='/' exact component={Home}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
             <Route path='/add-tour' component={CreationTour}/>
-            <Route path='/tours' component={Tours}/>
-            {/*<Route path='/tours/:id' component={TourView}/>*/}
-            <Route path='/info' component={TourView}/>
+            <Route exact path='/tours' component={Tours}/>
+            <Route path='/tours/:id' component={TourView}/>
+            <Route path='/profile' component={Profile}/>
           </Switch>
       </Router>
     </div>

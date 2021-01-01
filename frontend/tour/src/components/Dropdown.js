@@ -36,7 +36,7 @@ export default class Dropdown extends Component {
         const {handleClick, click, setClick} = this.state;
         return (
             <>
-                <ul onClick={() => handleClick()} className={click ? 'dropdown-menu clicked' : 'dropdown-menu'}>
+                <ul className={click ? 'dropdown-menu clicked' : 'dropdown-menu'}>
                     <li>
                         <Link className='dropdown-link' to='/profile' onClick={() => this.setClick(false)}>
                             Profile

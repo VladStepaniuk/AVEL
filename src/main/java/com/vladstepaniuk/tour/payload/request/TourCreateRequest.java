@@ -1,8 +1,6 @@
 package com.vladstepaniuk.tour.payload.request;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 

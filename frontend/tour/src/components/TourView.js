@@ -1,48 +1,61 @@
 import React, { Component } from 'react';
+import TourService from '../services/tour.service';
+import UserService from '../services/user.service';
+import AuthService from '../services/auth.service';
 import './TourView.css';
 
 export default class TourView extends Component {
-    state={
-        tours:[
-            {
-                "id": "1",
-                "title": "Amazing grace",
-                "src": "https://wallpapershome.com/images/pages/ico_h/19758.jpg",
-                "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                "price": "564.00$",
-                "rating" : "5",
-                "place":"Madagascar",
-                "inStock":"12"
-            }]
+    constructor(props){
+        super(props);
 
+        this.state={
+            id: this.props.match.params.id,
+            item: {},
+            isInFav: false
+        }
+        this.addFavourite = this.addFavourite.bind(this);
     }
+    
+    componentDidMount(){
+        TourService.getTourById(this.state.id).then(res=>{
+            this.setState({ item: res.data });
+        });
+    }
+
+    addFavourite(){
+        console.log("Button add pressed!");
+        const user = AuthService.getCurrentUser();
+        UserService.addToFavourite(this.state.id, user.username).then(res => {
+            this.setState({
+                isInFav: true
+            })
+        });
+    }
+
     render() {
-        const {tours} = this.state;
+        const { item, isInFav } = this.state;
         return (
             <div className='container'>
             <div className='tour-container'>
-                {
-                    tours.map(item => (
                         <div className='details'>
                             <div className='big-img'>
-                                <img src={item.src} alt=""/>
+                                <img src={item.path} alt=""/>
                             </div>
                             <div className='box'>
-                                <div className='row'>
-                                    <h2>{item.title}</h2>
-                                    <span>{item.price}</span>
-                                </div>
+                            <div className='row'>
+                                <h2>{item.title}</h2>
+                                <span>{item.price}.00$</span>
+                            </div>
                             <p>{item.rating}</p>
                             <p>{item.description}</p>
                             <p>{item.place}</p>
                             <p>{item.inStock}</p>
-                            <button className='cart'>Favorite</button>
+                            <button className='cart' onClick={this.addFavourite}>Make favourite</button>
                             </div>
                         </div>
-                    ))
-                }
+                    </div>
             </div>
-            </div>
+            
         )
     }
 }

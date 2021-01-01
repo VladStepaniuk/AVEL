@@ -75,7 +75,8 @@ public class TourController {
                     tour.getInStock(),
                     tour.getPlace(),
                     tour.getFilePath(),
-                    tour.getCreatedDate()
+                    tour.getCreatedDate(),
+                    false
             );
         }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(tours);
@@ -96,7 +97,8 @@ public class TourController {
                         tour.getInStock(),
                         tour.getPlace(),
                         tour.getFilePath(),
-                        tour.getCreatedDate())
+                        tour.getCreatedDate(),
+                        false)
                 );
     }
 }

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import TourService from '../services/tour.service';
+import { withRouter, Redirect } from 'react-router-dom';
 import './CatalogSection.css';
 
-export default class CatalogSection extends Component {
+class CatalogSection extends Component {
     constructor(props){
-        super(props);
+        super(props)
 
         this.state={
             tours: []
         }
-        this.viewTour = this.viewTour.bind(this);
+       this.viewTour = this.viewTour.bind(this);
     }
 
     componentDidMount(){
@@ -25,29 +26,25 @@ export default class CatalogSection extends Component {
 
     render() {
         let tourList = this.state.tours.map((item) =>
-        <div className='card-container' key={item.id}>
-            <div className="image-container">
-                <img src=''/>
-            </div>
-            <div className="card-title">
-                <h3>{item.title}</h3>
-            </div>
-            <div className="card-body">
-                <p>{item.place}</p>
-            </div>
-            <div className="card-price">
-                <p>{item.price}<span>.00$</span></p>
-            </div>
-            <div className="btn">
+        <div className='card' key={item.id}>
+            <img src={item.path} alt={item.path} className="card-img"/>
+            <div className="card-info">
+                <h3 className="card-title">{item.title}</h3>
+                <p className="card-info-field">{item.place}</p>
+                <p className="card-price">{item.price}<span>.00$</span></p>
                 <button onClick={() => this.viewTour(item.id)}>View more</button>
             </div>
         </div>
         )
         return (
-            <div className='catalog-container'>
-                <h3>Our tours</h3>
-                {tourList}
-            </div>
+            <>
+                <div className='cards'>
+                    <h3>Our tours</h3>
+                    {tourList}
+                </div>
+            </>
         )
     }
 }
+
+export default withRouter(CatalogSection);
