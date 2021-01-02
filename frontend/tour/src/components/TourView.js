@@ -17,7 +17,7 @@ export default class TourView extends Component {
     }
     
     componentDidMount(){
-        TourService.getTourById(this.state.id).then(res=>{
+        TourService.getTourById(this.state.id).then((res) => {
             this.setState({ item: res.data });
         });
     }
@@ -25,7 +25,9 @@ export default class TourView extends Component {
     addFavourite(){
         console.log("Button add pressed!");
         const user = AuthService.getCurrentUser();
-        UserService.addToFavourite(this.state.id, user.username).then(res => {
+        var data = new FormData();
+        data.append("username", user.username);
+        UserService.addToFavourite(this.state.id, data).then(res => {
             this.setState({
                 isInFav: true
             })

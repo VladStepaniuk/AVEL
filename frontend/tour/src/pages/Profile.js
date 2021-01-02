@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserService from '../services/user.service';
 import '../components/CatalogSection.css';
+import AuthService from '../services/auth.service';
 
 export default class Profile extends Component {
     constructor(props){
@@ -12,7 +13,8 @@ export default class Profile extends Component {
     }
 
     componentDidMount(){
-        UserService.getUsersTours().then(res => {
+        const user = AuthService.getCurrentUser();
+        UserService.getUsersTours(user.username).then(res => {
             this.setState({
                 tours: res.data
             });

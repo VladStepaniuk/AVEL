@@ -36,8 +36,7 @@ public class UserController {
     private TourService tourService;
 
     @PostMapping("tour/add/{id}")
-    public ResponseEntity<User> addToUsersTours(@PathVariable Long id, String username){
-        /*String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();*/
+    public ResponseEntity<User> addToUsersTours(@PathVariable Long id, @RequestParam("username") String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         Tour tour = tourService.getById(id);
@@ -47,10 +46,8 @@ public class UserController {
     }
 
     @GetMapping("tours/get")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<TourResponse>> getFavouriteTours(){
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = (User) userService.loadUserByUsername(currentUserName);
+    public ResponseEntity<List<TourResponse>> getFavouriteTours(@RequestParam("username") String username){
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         List<TourResponse> tours = user.getTours().stream().map(tour -> {
             return new TourResponse(
                     tour.getId(),

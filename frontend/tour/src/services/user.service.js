@@ -21,12 +21,14 @@ class UserService {
     return axios.get(API_TEST_URL + 'admin', { headers: authHeader() });
   }
 
-  addToFavourite(id, username){
-    return axios.post(API_URL + 'tour/add/' + id, username, { headers: authHeader() });
+  addToFavourite(id, data){
+    return axios.post(API_URL + 'tour/add/' + id, data, { headers: authHeader() });
   }
 
-  getUsersTours(){
-    return axios.get(API_URL + 'tours/get', { headers: authHeader() });
+  getUsersTours(username){
+    var data = new FormData();
+    data.append("username", username);
+    return axios.get(API_URL + 'tours/get', data, { headers: authHeader() });
   }
 }
 
