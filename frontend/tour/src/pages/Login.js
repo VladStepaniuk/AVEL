@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import AuthService from '../services/auth.service';
-import './style.css';
 import axios from 'axios';
 
 export default class Login extends Component {
@@ -52,7 +51,7 @@ export default class Login extends Component {
     render() {
         const{username, password, loading, error, message} = this.state;
         return (
-            <div className='login-container'>
+           {/* <div className='login-container'>
             <div className='base-container'>
                 <form onSubmit={this.handleSubmit}>
                 <div className='header'>Login</div>
@@ -77,7 +76,9 @@ export default class Login extends Component {
                  </form>
             </div>
             </div>
-           
+        */} 
+
+          
         )
     }
 }

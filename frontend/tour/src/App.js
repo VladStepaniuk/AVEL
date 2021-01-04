@@ -4,9 +4,10 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import CreationTour from './components/CreationTour';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Signin from './pages/Signin';
 import Register from './pages/Register';
 import Tours from './pages/Tours';
+import SignUp from './pages/Sigup';
 import axios from 'axios';
 import TourView from './components/TourView';
 import Profile from './pages/Profile';
@@ -38,7 +39,8 @@ export default class App extends Component {
           <Navbar/>
           <Switch>
             <Route path='/' exact component={Home}/>
-            <Route path='/login' component={Login}/>
+            <Route path='/sign-in' component={Signin}/>
+            <Route path='/sign-up' component={SignUp}/>
             <Route path='/register' component={Register}/>
             <Route path='/add-tour' component={CreationTour}/>
             <Route exact path='/tours' component={Tours}/>

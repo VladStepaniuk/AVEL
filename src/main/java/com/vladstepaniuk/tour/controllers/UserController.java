@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -41,13 +42,14 @@ public class UserController {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         Tour tour = tourService.getById(id);
         user.getTours().add(tour);
-
+        userRepository.save(user);
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("tours/get")
-    public ResponseEntity<List<TourResponse>> getFavouriteTours(@RequestParam("username") String username){
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    @GetMapping("tours/get/{username}")
+    public ResponseEntity<List<TourResponse>> getFavouriteTours(@PathVariable String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         List<TourResponse> tours = user.getTours().stream().map(tour -> {
             return new TourResponse(
                     tour.getId(),
@@ -62,7 +64,17 @@ public class UserController {
                     true
             );
         }).collect(Collectors.toList());
-        return ResponseEntity.ok().body(tours);
+        return ResponseEntity.status(HttpStatus.OK).body(tours);
+    }
 
+    @PostMapping("tour/delete/{id}")
+    public ResponseEntity<MessageResponse> deleteTourFromFav(@PathVariable Long id, @RequestParam("username") String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found with username: " + username));
+        Tour tour = tourService.getById(id);
+
+        user.getTours().remove(tour);
+        userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Tour deleted succesfully with id: " + id));
     }
 }

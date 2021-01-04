@@ -82,10 +82,7 @@ class Navbar extends Component {
             buttons=(
                 <>
                 <li className='nav-item'>
-                    <Link to={'/login'} className='nav-links'>Login</Link>
-                </li>
-                <li className='nav-item'>
-                    <Link to={'/register'} className='nav-links'>Register</Link>
+                    <Link to={'/sign-in'} className='nav-links'>Sign In</Link>
                 </li>
                 </>
 

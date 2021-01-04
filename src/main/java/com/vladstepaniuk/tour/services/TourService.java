@@ -1,6 +1,7 @@
 package com.vladstepaniuk.tour.services;
 
 import com.vladstepaniuk.tour.domain.Tour;
+import com.vladstepaniuk.tour.domain.User;
 
 import java.io.IOException;
 import java.util.stream.Stream;

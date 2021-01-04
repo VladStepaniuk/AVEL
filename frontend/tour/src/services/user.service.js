@@ -26,9 +26,11 @@ class UserService {
   }
 
   getUsersTours(username){
-    var data = new FormData();
-    data.append("username", username);
-    return axios.get(API_URL + 'tours/get', data, { headers: authHeader() });
+    return axios.get(API_URL + 'tours/get/' + username,{ headers: authHeader() });
+  }
+
+  deleteTourFromFav(username, id){
+    return axios.post(API_URL + 'tour/delete/' + id, username, { headers: authHeader() } );
   }
 }
 

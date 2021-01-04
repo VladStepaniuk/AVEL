@@ -37,7 +37,7 @@ export default class TourView extends Component {
     render() {
         const { item, isInFav } = this.state;
         return (
-            <div className='container'>
+            <div className='t-container'>
             <div className='tour-container'>
                         <div className='details'>
                             <div className='big-img'>

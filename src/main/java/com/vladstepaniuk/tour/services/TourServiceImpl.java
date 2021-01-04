@@ -1,6 +1,7 @@
 package com.vladstepaniuk.tour.services;
 
 import com.vladstepaniuk.tour.domain.Tour;
+import com.vladstepaniuk.tour.domain.User;
 import com.vladstepaniuk.tour.repositories.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,5 @@ public class TourServiceImpl implements TourService {
     public Tour getById(Long id) {
             return tourRepository.findById(id).orElseThrow();
     }
+
 }

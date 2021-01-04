@@ -10,6 +10,7 @@ export default class Profile extends Component {
         this.state={
             tours: []
         };
+        this.deleteTour = this.deleteTour.bind(this);
     }
 
     componentDidMount(){
@@ -19,6 +20,15 @@ export default class Profile extends Component {
                 tours: res.data
             });
         })
+    }
+
+    deleteTour(id){
+        const user = AuthService.getCurrentUser();
+        UserService.deleteTourFromFav(user.username, id).then(
+            res=>{
+                console.log(res);
+            }
+        )
     }
 
     render() {
@@ -32,6 +42,8 @@ export default class Profile extends Component {
                 <p className="card-info-field">{item.place}</p>
                 <p className="card-price">{item.price}<span>.00$</span></p>
                 <button onClick={() => this.viewTour(item.id)}>View more</button>
+                <button onClick={() => this.deleteTour(item.id)}>Delete</button>
+            
             </div>
         </div>
         )}
