@@ -2,9 +2,11 @@ package com.vladstepaniuk.tour.controllers;
 
 
 import com.vladstepaniuk.tour.domain.Tour;
+import com.vladstepaniuk.tour.domain.User;
 import com.vladstepaniuk.tour.payload.request.TourCreateRequest;
 import com.vladstepaniuk.tour.payload.response.MessageResponse;
 import com.vladstepaniuk.tour.payload.response.TourResponse;
+import com.vladstepaniuk.tour.repositories.UserRepository;
 import com.vladstepaniuk.tour.services.TourService;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,13 +35,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/tours")
 public class TourController {
 
-    @Value("${hoster.app.upload.dir}")
-    private String uploadDir;
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private TourService tourService;
+
+    @Autowired
+    private UserRepository userRepo;
 
     @PostMapping("/add")
     public ResponseEntity<?> addNewTour(@Valid @RequestBody TourCreateRequest tourRequest,
@@ -62,8 +65,9 @@ public class TourController {
         }
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<TourResponse>> getTours(){
+    @GetMapping("/all/{username}")
+    public ResponseEntity<List<TourResponse>> getTours(@PathVariable String username){
+
         List<TourResponse> tours = tourService.getAllTours().map(tour -> {
 
             return new TourResponse(
@@ -82,10 +86,9 @@ public class TourController {
         return ResponseEntity.status(HttpStatus.OK).body(tours);
     }
 
-    @GetMapping("/{id}/info")
-    public ResponseEntity<TourResponse> getTourInfo(@PathVariable Long id){
+    @GetMapping("{username}/{id}/info")
+    public ResponseEntity<TourResponse> getTourInfo(@PathVariable Long id, @PathVariable String username){
         Tour tour = tourService.getById(id);
-
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new TourResponse(

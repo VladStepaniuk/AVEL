@@ -67,8 +67,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(tours);
     }
 
-    @PostMapping("tour/delete/{id}")
-    public ResponseEntity<MessageResponse> deleteTourFromFav(@PathVariable Long id, @RequestParam("username") String username){
+    @PostMapping("tour/delete/{id}/{username}")
+    public ResponseEntity<MessageResponse> deleteTourFromFav(@PathVariable Long id, @PathVariable String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found with username: " + username));
         Tour tour = tourService.getById(id);
