@@ -65,11 +65,10 @@ public class TourController {
         }
     }
 
-    @GetMapping("/all/{username}")
-    public ResponseEntity<List<TourResponse>> getTours(@PathVariable String username){
+    @GetMapping("/all")
+    public ResponseEntity<List<TourResponse>> getTours(){
 
         List<TourResponse> tours = tourService.getAllTours().map(tour -> {
-
             return new TourResponse(
                     tour.getId(),
                     tour.getTitle(),
@@ -86,8 +85,8 @@ public class TourController {
         return ResponseEntity.status(HttpStatus.OK).body(tours);
     }
 
-    @GetMapping("{username}/{id}/info")
-    public ResponseEntity<TourResponse> getTourInfo(@PathVariable Long id, @PathVariable String username){
+    @GetMapping("/{id}/info")
+    public ResponseEntity<TourResponse> getTourInfo(@PathVariable Long id){
         Tour tour = tourService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK)

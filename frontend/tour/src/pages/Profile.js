@@ -11,6 +11,7 @@ export default class Profile extends Component {
             tours: []
         };
         this.deleteTour = this.deleteTour.bind(this);
+        this.viewTour = this.viewTour.bind(this);
     }
 
     componentDidMount(){
@@ -28,7 +29,12 @@ export default class Profile extends Component {
             res=>{
                 console.log(res);
             }
-        )
+        );
+        window.location.reload();
+    }
+
+    viewTour(id){
+        this.props.history.push(`/tours/${id}`);
     }
 
     render() {

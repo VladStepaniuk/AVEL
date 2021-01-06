@@ -21,6 +21,14 @@ class UserService {
     return axios.get(API_TEST_URL + 'admin', { headers: authHeader() });
   }
 
+  getAllToursByUser(username){
+    return axios.get(API_URL + 'tours/all/' + username, {headers: authHeader() });
+  }
+
+  getTourByUser(id, username){
+    return axios.get(API_URL + 'tour/' + id +'/info/' + username, {headers: authHeader()});
+  }
+
   addToFavourite(id, data){
     return axios.post(API_URL + 'tour/add/' + id, data, { headers: authHeader() });
   }
@@ -30,7 +38,7 @@ class UserService {
   }
 
   deleteTourFromFav(username, id){
-    return axios.post(API_URL + 'tour/delete/' + id, username, { headers: authHeader() } );
+    return axios.delete(API_URL + 'tour/delete/' + id + '/' + username, { headers: authHeader() } );
   }
 }
 

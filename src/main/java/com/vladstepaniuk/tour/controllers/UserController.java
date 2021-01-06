@@ -67,7 +67,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(tours);
     }
 
-    @PostMapping("tour/delete/{id}/{username}")
+    @DeleteMapping("tour/delete/{id}/{username}")
     public ResponseEntity<MessageResponse> deleteTourFromFav(@PathVariable Long id, @PathVariable String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found with username: " + username));
@@ -76,5 +76,54 @@ public class UserController {
         user.getTours().remove(tour);
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Tour deleted succesfully with id: " + id));
+    }
+
+    @GetMapping("tours/all/{username}")
+    public ResponseEntity<List<TourResponse>> getToursByUser(@PathVariable String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        List<TourResponse> tours = tourService.getAllTours().map( tour -> {
+            boolean isContain = false;
+            if(user.getTours().contains(tour)){
+                isContain = true;
+            }
+            return new TourResponse(
+                    tour.getId(),
+                    tour.getTitle(),
+                    tour.getRating(),
+                    tour.getPrice(),
+                    tour.getDescription(),
+                    tour.getInStock(),
+                    tour.getPlace(),
+                    tour.getFilePath(),
+                    tour.getCreatedDate(),
+                    isContain
+            );
+        }).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(tours);
+    }
+
+    @GetMapping("tour/{id}/info/{username}")
+    public ResponseEntity<TourResponse> getTourInfoUser(@PathVariable Long id, @PathVariable String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        Tour tour = tourService.getById(id);
+        boolean isContain = false;
+        if(user.getTours().contains(tour)) isContain = true;
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new TourResponse(
+                        tour.getId(),
+                        tour.getTitle(),
+                        tour.getRating(),
+                        tour.getPrice(),
+                        tour.getDescription(),
+                        tour.getInStock(),
+                        tour.getPlace(),
+                        tour.getFilePath(),
+                        tour.getCreatedDate(),
+                        isContain
+                ));
     }
 }
