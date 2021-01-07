@@ -39,7 +39,7 @@ class CatalogSection extends Component {
         let tourList = this.state.tours.map((item) =>
         <div className='card' key={item.id}>
             <img src={item.path} alt={item.path} className="card-img"/>
-            <div className='card-info' >
+            <div className={` ${item.contain ? 'card-info-fav' : 'card-info'}`} >
                 <h3 className="card-title">{item.title}</h3>
                 <p className="card-info-field">{item.place}</p>
                 <p className="card-price">{item.price}<span>.00$</span></p>

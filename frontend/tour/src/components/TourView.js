@@ -11,7 +11,6 @@ export default class TourView extends Component {
         this.state={
             id: this.props.match.params.id,
             item: {},
-            isInFav: undefined,
             user: undefined
         }
         this.addFavourite = this.addFavourite.bind(this);
@@ -25,8 +24,6 @@ export default class TourView extends Component {
             UserService.getTourByUser(this.state.id, user.username).then((res) =>{
                 this.setState({ item: res.data, user: user});
             });
-
-            this.setState({ isInFav: this.state.item.isContain});
         }
         else{
             TourService.getTourById(this.state.id).then((res) => {
@@ -42,23 +39,21 @@ export default class TourView extends Component {
         var data = new FormData();
         data.append("username", user.username);
         UserService.addToFavourite(this.state.id, data).then(res => {
-            this.setState({
-                isInFav: true
-            })
+            console.log(res);
         });
+        window.location.reload();
     }
 
     deleteFromFav(){
         console.log("Button delete pressed!");
         UserService.deleteTourFromFav(this.state.user.username, this.state.id).then(res => {
-            this.setState({ 
-                isInFav: false
-            })
+            console.log(res);
         });
+        window.location.reload();
     }
 
     render() {
-        const { item, isInFav } = this.state;
+        const { item } = this.state;
         return (
             <div className='t-container'>
             <div className='tour-container'>
@@ -75,7 +70,7 @@ export default class TourView extends Component {
                             <p>{item.description}</p>
                             <p>{item.place}</p>
                             <p>{item.inStock}</p>
-                            {isInFav ? (
+                            {item.contain ? (
                                 <button className='cart' onClick={this.deleteFromFav}>Delete from fav</button>
                             ) : (
                                 <button className='cart' onClick={this.addFavourite}>Make favourite</button>

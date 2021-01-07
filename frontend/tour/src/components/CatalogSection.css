@@ -32,6 +32,13 @@
     padding: 16px 24px 24px 24px;
 }
 
+.card-info-fav{
+    background-color: #4444;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding: 16px 24px 24px 24px;
+}
+
 .card-title{
     margin-top: 5px;
     margin-bottom: 10px;

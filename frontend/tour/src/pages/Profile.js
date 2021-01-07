@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UserService from '../services/user.service';
 import '../components/CatalogSection.css';
 import AuthService from '../services/auth.service';
+import ProfileInfo from '../components/ProfileInfo';
 
 export default class Profile extends Component {
     constructor(props){
@@ -16,11 +17,15 @@ export default class Profile extends Component {
 
     componentDidMount(){
         const user = AuthService.getCurrentUser();
+        if(user){
         UserService.getUsersTours(user.username).then(res => {
             this.setState({
                 tours: res.data
             });
         })
+        } else {
+            this.props.history.push("/sign-in");
+        }
     }
 
     deleteTour(id){
@@ -40,10 +45,11 @@ export default class Profile extends Component {
     render() {
         return (
             <div>
+                <ProfileInfo />
                 <h1>Your favourite tours:</h1>
                 {this.state.tours.map((item) => <div className='card' key={item.id}>
             <img src={item.path} alt={item.path} className="card-img"/>
-            <div className="card-info">
+            <div className={` ${item.contain ? 'card-info-fav' : 'card-info'}`} >
                 <h3 className="card-title">{item.title}</h3>
                 <p className="card-info-field">{item.place}</p>
                 <p className="card-price">{item.price}<span>.00$</span></p>
