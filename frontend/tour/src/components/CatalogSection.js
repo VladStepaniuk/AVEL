@@ -50,7 +50,7 @@ class CatalogSection extends Component {
         return (
             <>
                 <div className='cards'>
-                    <h3>Our tours</h3>
+                    <h1 className='title-list'>Our tours</h1>
                     {tourList}
                 </div>
             </>

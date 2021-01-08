@@ -44,21 +44,24 @@ export default class Profile extends Component {
 
     render() {
         return (
-            <div>
+            <div className='tour-l-container'>
                 <ProfileInfo />
-                <h1>Your favourite tours:</h1>
+                <div className='tour-list-container'>
+                <h1 className='title-list'>Your favourite tours:</h1>
+                <div className='cards'>
                 {this.state.tours.map((item) => <div className='card' key={item.id}>
-            <img src={item.path} alt={item.path} className="card-img"/>
-            <div className={` ${item.contain ? 'card-info-fav' : 'card-info'}`} >
+                <img src={item.path} alt={item.path} className="card-img"/>
+                <div className={` ${item.contain ? 'card-info-fav' : 'card-info'}`} >
                 <h3 className="card-title">{item.title}</h3>
                 <p className="card-info-field">{item.place}</p>
                 <p className="card-price">{item.price}<span>.00$</span></p>
                 <button onClick={() => this.viewTour(item.id)}>View more</button>
                 <button onClick={() => this.deleteTour(item.id)}>Delete</button>
-            
             </div>
         </div>
         )}
+            </div>
+            </div>
             </div>
         )
     }

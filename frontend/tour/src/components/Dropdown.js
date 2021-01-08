@@ -9,7 +9,8 @@ export default class Dropdown extends Component {
 
         this.state={
             click: false,
-
+            showModBoard: false,
+            showAdminBoard: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.logout = this.logout.bind(this);
@@ -24,6 +25,17 @@ export default class Dropdown extends Component {
     logout(){
         AuthService.logout();
         window.location.reload();
+    };
+
+    componentDidMount(){
+        const user = AuthService.getCurrentUser();
+
+        if(user){
+            this.setState({
+                showModBoard: user.roles.includes("ROLE_MODERATOR"),
+                showAdminBoard: user.roles.includes("ROLE_ADMIN")
+            });
+        }
     }
 
     setClick(value){
@@ -33,7 +45,7 @@ export default class Dropdown extends Component {
     }
 
     render() {
-        const {handleClick, click, setClick} = this.state;
+        const {handleClick, click, setClick, showAdminBoard, showModBoard} = this.state;
         return (
             <>
                 <ul className={click ? 'dropdown-menu clicked' : 'dropdown-menu'}>
@@ -42,11 +54,23 @@ export default class Dropdown extends Component {
                             Profile
                         </Link>
                     </li>
+                    {showModBoard && (
+                        <Link to={'/moderator/panel'} className='dropdown-link' onClick={() => this.setClick(false)}>
+                            Moderator Board
+                        </Link>
+                    )}
+
+                    {showAdminBoard && (
+                        <Link to={'/admin/panel'} className='dropdown-link' onClick={() => this.setClick(false)}>
+                            Admin Board
+                        </Link>
+                    )}
                     <li>
                         <Link to={'/'} onClick={()=>this.logout()} className='dropdown-link'>
                             Logout
                         </Link>
                     </li>
+                    
                 </ul>
             </>
         )

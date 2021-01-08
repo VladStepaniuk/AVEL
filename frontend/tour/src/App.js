@@ -11,6 +11,8 @@ import SignUp from './pages/Sigup';
 import axios from 'axios';
 import TourView from './components/TourView';
 import Profile from './pages/Profile';
+import ModeratorPanel from './pages/ModeratorPage';
+import AdminPanel from './pages/AdminPage';
 
 export default class App extends Component {
   state={};
@@ -46,6 +48,8 @@ export default class App extends Component {
             <Route exact path='/tours' component={Tours}/>
             <Route path='/tours/:id' component={TourView}/>
             <Route path='/profile' component={Profile}/>
+            <Route path='/moderator/panel' component={ModeratorPanel}/>
+            <Route path='/admin/panel' component={AdminPanel} />
           </Switch>
       </Router>
     </div>
