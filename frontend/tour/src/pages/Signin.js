@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import AuthService from '../services/auth.service';
 import pic1 from '../1.svg';
-import axios from 'axios';
 import '../components/Signin.css';
 
 export default class Signin extends Component {
@@ -25,17 +25,15 @@ export default class Signin extends Component {
 
         const{username, password} = this.state;
 
-        axios.post('http://localhost:8080/api/auth/signin', {username, password}).then(
-            res=>{
-                localStorage.setItem('user', JSON.stringify(res.data));
-                this.props.history.push('/');
-                window.location.reload();
-            }
-        ).catch(
-            err=>{
+        AuthService.login(username, password).then(res=>{
+            console.log(res);
+            this.props.history.push('/profile');
+            window.location.reload();
+        }).catch(
+            err=> {
                 console.log(err);
             }
-        )
+        );
     }
 
     render() {
@@ -78,8 +76,7 @@ export default class Signin extends Component {
                     <div className="content">
                         <h3>New here?</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex nulla iure facere?</p>
-                        <button className="btn transparent" onClick={this.changeToSignIn}>Sign Up</button>
-
+                        <button className="btn transparent" onClick={() => this.props.history.push('/sign-up')}>Sign Up</button>
                         <img src={pic1} className='image' alt=''/>
                     </div>
                 </div>
